@@ -1,0 +1,77 @@
+import java.util.Scanner;
+
+class EBBill {
+    public static void main(String args[]) {
+
+        Scanner sc = new Scanner(System.in);
+
+        int consumerNo;
+        String name, type;
+        int previousReading, currentReading, units;
+        double bill = 0;
+
+        System.out.print("Enter Consumer Number: ");
+        consumerNo = sc.nextInt();
+        sc.nextLine();
+
+        System.out.print("Enter Consumer Name: ");
+        name = sc.nextLine();
+
+        System.out.print("Enter Previous Reading: ");
+        previousReading = sc.nextInt();
+
+        System.out.print("Enter Current Reading: ");
+        currentReading = sc.nextInt();
+
+        if (currentReading < previousReading) {
+            System.out.println("Error: Current reading cannot be less than previous reading.");
+            sc.close();
+            return;
+        }
+
+        units = currentReading - previousReading;
+
+        sc.nextLine();
+        System.out.print("Enter Connection Type (Domestic/Commercial): ");
+        type = sc.nextLine().trim();
+
+        if (type.equalsIgnoreCase("Domestic")) {
+
+            if (units <= 100) {
+                bill = 0;
+            } else if (units <= 200) {
+                bill = (units - 100) * 2;
+            } else if (units <= 500) {
+                bill = (100 * 2) + (units - 200) * 4;
+            } else {
+                bill = (100 * 2) + (300 * 4) + (units - 500) * 6;
+            }
+
+        } else if (type.equalsIgnoreCase("Commercial")) {
+
+            if (units <= 100) {
+                bill = units * 2;
+            } else if (units <= 200) {
+                bill = (100 * 2) + (units - 100) * 4;
+            } else if (units <= 500) {
+                bill = (100 * 2) + (100 * 4) + (units - 200) * 6;
+            } else {
+                bill = (100 * 2) + (100 * 4) + (300 * 6) + (units - 500) * 7;
+            }
+
+        } else {
+            System.out.println("Invalid Connection Type");
+            sc.close();
+            return;
+        }
+
+        System.out.println("\n------ EB BILL ------");
+        System.out.println("Consumer Number : " + consumerNo);
+        System.out.println("Consumer Name   : " + name);
+        System.out.println("Connection Type : " + type);
+        System.out.println("Units Consumed  : " + units);
+        System.out.printf("Bill Amount     : Rs. %.2f%n", bill);
+
+        sc.close();
+    }
+}
